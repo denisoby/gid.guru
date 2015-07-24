@@ -44,6 +44,7 @@ dd { margin-right: 30px; margin-left: 0; }
 .gallery-columns-1.gallery-size-medium figure.gallery-item:nth-of-type(1n+1), .gallery-columns-1.gallery-size-thumbnail figure.gallery-item:nth-of-type(1n+1), .gallery-columns-2.gallery-size-thumbnail figure.gallery-item:nth-of-type(2n+1), .gallery-columns-3.gallery-size-thumbnail figure.gallery-item:nth-of-type(3n+1) { clear: right; }
 .gallery-caption { right: 0; left: auto; text-align: right; }
 .gallery-caption:before { right: 0; left: auto; }
+.search-form .screen-reader-text { right: -9999px; left: auto; }
 .credits-text { text-align: left; }
 .sb-widget [class*='mh-col-'], .footer-widget [class*='mh-col-'] { margin-right: 0; }
 .custom-posts-list { margin-right: 3.5%; margin-left: 0; }

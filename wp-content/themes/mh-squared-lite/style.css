@@ -4,7 +4,7 @@ Theme URI: http://www.mhthemes.com/themes/mh/squared-lite/
 Author: MH Themes
 Author URI: http://www.mhthemes.com/
 Description: MH Squared lite is a free responsive magazine WordPress theme that is just waiting for your contents. This magazine theme gives you the ability to create an awesome-looking online magazine or a dynamic news website using a modern and sleek layout that is fully-customizable using the advanced theme customizer and an array of custom widgets. For more features and options you can upgrade to the premium version of MH Squared.
-Version: 1.0.0
+Version: 1.0.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: mh-squared-lite
@@ -396,44 +396,24 @@ table a { font-weight: 700; }
 .footer-widget { color: #fff; margin-top: 25px; background: #1f1e1e; overflow: hidden; }
 .footer-widget a { color: #fff; }
 .footer-widget a:hover { background: #fff; color: #1f1e1e; }
-.sb-widget:first-child, .home-main-widget:first-child, .footer-widget:first-child { margin-top: 0; }
-.sb-widget [class*='mh-col-'], .footer-widget [class*='mh-col-'] { width: 100%; margin-left: 0; }
-[class*='widget_'] ul { padding: 25px; }
-[class*='widget_'] li { margin: 10px 0 0; background: #f0f0f0; padding: 25px; font-size: 14px; font-size: 0.875rem; font-weight: 700; overflow: hidden; }
-[class*='widget_'] li:first-child { margin-top: 0; }
-[class*='widget_'] li:hover a { background: #1f1e1e; }
-[class*='widget_'] li a:hover { text-decoration: none; }
-.footer-widget[class*='widget_'] li { background: #000; }
-.footer-widget[class*='widget_'] li:hover a { background: #fff; color: #1f1e1e; }
-
-/***** Default WordPress Widgets *****/
-
-.sb-widget ul > .cat-item, .sb-widget ul > .menu-item, .sb-widget ul > .page_item { padding: 10px 25px; }
-.sb-widget ul > .cat-item:hover a, .sb-widget ul > .menu-item:hover a, .sb-widget ul > .page_item:hover a, .sb-widget[class*='widget_'] li:hover a { color: #fff; }
-.sb-widget ul .children .cat-item, .sb-widget ul .sub-menu .menu-item, .sb-widget ul .children .page_item  { margin-top: 10px; padding-top: 10px; padding-bottom: 0; border-top: 1px dotted #fff; border-bottom: none; }
-.widget_archive select { clear: both; overflow: hidden; margin: 10%; padding: 3%; width: 80%; font-weight: 700; font-size: 12px; font-size: 0.75rem; border: 1px solid #ececec; }
-.widget_archive select option { padding: 2%; }
-.widget_recent_entries .post-date { display: inline-block; padding: 5px 10px; background: #faab1a; color: #fff; font-weight: 700; font-size: 11px; font-size: 0.6875rem; }
-.widget_recent_entries a:hover, .widget_meta a:hover, .widget_archive a:hover { text-decoration: none; }
+.sb-widget:first-child, .home-main-widget:first-child { margin-top: 0; }
+.sb-widget [class*='mh-col-'] { width: 100%; margin-left: 0; }
 
 /***** MH Custom Posts Widget *****/
 
 .custom-posts-widget { padding: 25px; }
 .custom-posts-lead { width: 48.25%; }
 .custom-posts-list { width: 48.25%; margin-left: 3.5%; }
-.custom-posts-item:hover a { background: #1f1e1e; color: #fff; }
+.custom-posts-item:hover .custom-posts-title a { background: #1f1e1e; color: #fff; }
 .custom-posts-thumb { background: #fff; margin-bottom: 20px; text-align: center; }
 .custom-posts-title { font-size: 28px; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px; }
 .custom-posts-date { color: #1f1e1e; background: #f0f0f0; display: inline-block; font-size: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
 .custom-posts-lead .custom-posts-thumb img { width: 100%; max-width: 333px; }
 .custom-posts-small .custom-posts-title { font-size: 14px; font-size: 0.875rem; }
-.custom-posts-small, .sb-widget .custom-posts-small:first-child, .footer-widget .custom-posts-small:first-child { margin-top: 25px; }
+.custom-posts-small, .sb-widget .custom-posts-small:first-child { margin-top: 25px; }
 .custom-posts-small:first-child { margin-top: 0; }
 .custom-posts-small .custom-posts-thumb { float: left; margin: 0 25px 0 0; }
 .custom-posts-small .custom-posts-excerpt { display: none; }
-.footer-widget .custom-posts-item:hover a { background: #fff; color: #1f1e1e; }
-.footer-widget .custom-posts-thumb { background: #1f1e1e; }
-.footer-widget .custom-posts-date { background: #000; color: #fff; }
 
 /***** MH Slider *****/
 
@@ -465,6 +445,34 @@ table a { font-weight: 700; }
 .recentcomments:hover .comment-author-link a, .footer-widget .recentcomments:hover .comment-author-link a { background: #faab1a; color: #fff; }
 .footer-widget .mh-recent-comments li { background: #000; }
 .footer-widget .mh-recent-comments li:hover a { background: #fff; }
+
+/***** Default WordPress Widgets *****/
+
+[class*='widget_'] .screen-reader-text { display: none; }
+[class*='widget_'] ul { padding: 20px 25px 25px; }
+[class*='widget_'] ul ul { padding: 0; }
+[class*='widget_'] li { font-weight: 700; }
+
+/***** Default Category / Archives / Pages Widget *****/
+
+.widget_categories ul li, .widget_categories ul ul li:first-child, .widget_archive ul li, .widget_archive ul ul li:first-child, .widget_pages ul li, .widget_pages ul ul li:first-child { font-size: 14px; font-size: 0.875rem; padding-top: 10px; margin-top: 10px; border-top: 1px dotted #ccc; }
+.widget_categories ul li:first-child, .widget_archive ul li:first-child, .widget_pages ul li:first-child { padding-top: 0; margin-top: 0; border: none; }
+.widget_categories a:hover, .widget_archive a:hover, .widget_pages a:hover { color: #fff; background: #1f1e1e; }
+.widget_categories select, .widget_archive select { clear: both; overflow: hidden; margin: 10%; padding: 0 3%; width: 80%; font-weight: 700; text-transform: uppercase; font-size: 12px; font-size: 0.75rem; border: 1px solid #ececec; }
+.widget_categories select option, .widget_archive select option { padding: 2%; }
+
+/***** Default Custom Menu / Meta Widget *****/
+
+.widget_nav_menu ul, .widget_meta ul { padding: 15px 25px 25px; }
+.widget_nav_menu ul li, .widget_nav_menu ul ul li:first-child, .widget_meta ul li, .widget_meta ul ul li:first-child { padding: 0; margin: 0; border: none; }
+.widget_nav_menu li a, .widget_meta li a { display: block; font-size: 14px; font-size: 0.875rem; margin: 10px 0 0; padding: 25px; background: #f0f0f0; overflow: hidden; }
+
+/***** Default Recent Posts Widget *****/
+
+.widget_recent_entries ul { padding: 15px 25px 25px; }
+.widget_recent_entries li { display: block; font-size: 14px; font-size: 0.875rem; margin: 10px 0 0; padding: 25px; background: #f0f0f0; overflow: hidden; }
+.widget_recent_entries li:hover a { color: #fff; background: #1f1e1e; }
+.widget_recent_entries .post-date { display: inline-block; font-size: 11px; font-size: 0.6875rem; font-weight: 700; color: #fff; padding: 5px 10px; background: #faab1a; }
 
 /***** Text Widget *****/
 
@@ -524,15 +532,15 @@ table a { font-weight: 700; }
 	.author-box-button, .uw-avatar { float: none; }
 	.no-comments, .pagination, .logo-wrap { margin-bottom: 25px; }
 	.logo-wrap, .custom-posts-title, .custom-posts-date, .custom-posts-excerpt, .content-slide-title, .footer-info, .credits-text, [class*='widget_'] li, .comment-section-title, .cp-title, .cp-excerpt, .uw-text, .uw-avatar, .author-box-content, .author-box-avatar, .author-box-button { text-align: center; }
-	.sb-widget:first-child, .custom-posts-small:first-child, .footer-widget:first-child { margin-top: 25px; }
-	.sb-widget .cp-title, .footer-widget .cp-title { font-size: 28px; font-size: 1.75rem; }
+	.sb-widget:first-child, .custom-posts-small:first-child { margin-top: 25px; }
+	.sb-widget .cp-title { font-size: 28px; font-size: 1.75rem; }
 	.custom-posts-item { background: #f0f0f0; }
 	.footer-widget .custom-posts-item { background: #000; }
 	.custom-posts-small .custom-posts-thumb { display: none; }
 	.custom-posts-small .custom-posts-excerpt, .custom-posts-date { display: block; }
 	.custom-posts-thumb, .custom-posts-item { padding: 25px; }
 	.custom-posts-small .custom-posts-title { font-size: 20px; font-size: 1.25rem; }
-	.footer-list-widget .widget-title, .author-box-title, .footer-list-widget[class*='widget_'] li { font-size: 14px; font-size: 0.875rem; }
+	.author-box-title { font-size: 14px; font-size: 0.875rem; }
 	.widget_recent_entries .post-date { margin: 0 0 0 10px; }
 	.uw-avatar { margin-bottom: 10px; }
 	.uw-avatar img { max-width: 100px; }
@@ -559,14 +567,16 @@ table a { font-weight: 700; }
 	.pagination .page-numbers, .pagination .pagelink, .cp-title { font-size: 14px; font-size: 0.875rem; }
 	.pagination .page-numbers, .pagination .pagelink { padding: 5px 10px; }
 	.author-box, .no-comments, .pagination, .archive-title, .cp-thumb, .content-list, .entry-category, .cp-thumb, .post-wrapper, .entry-content, .post-nav-wrap, .archive-title, .logo-wrap { margin-bottom: 20px; }
-	[class*='widget_'] ul, [class*='widget_'] li, .custom-posts-widget, .textwidget, .author-box-content, .comment, .commentlist .depth-1, .commentlist .children li, .no-comments, #respond, .pagination, .cat-description, .cp-widget, .user-widget, .custom-posts-item, .search-form, .user-widget li, .mh-recent-comments, .mh-recent-comments li, .tagcloud, .custom-posts-thumb, .post-wrapper, .archive-title, .wp-caption, .pinglist .pings { padding: 20px; }
+	.post-wrapper, .wp-caption, .author-box-content, .archive-title, .cat-description, .pagination, .search-form, [class*='widget_'] ul, .widget_nav_menu li a, .widget_meta li a, .widget_recent_entries li, .textwidget, .custom-posts-widget, .custom-posts-item, .custom-posts-thumb, .user-widget, .user-widget li, .mh-recent-comments, .mh-recent-comments li, .tagcloud, .comment, .commentlist .depth-1, .commentlist .children li, .no-comments, #respond, .pinglist .pings { padding: 20px; }
+	.widget_nav_menu ul, .widget_meta ul { padding: 10px 20px 20px; }
+	.widget_recent_entries ul { padding: 10px 20px 20px; }
 	.commentlist { padding: 20px 20px 0; }
 	.pinglist .fa-link { margin-right: 20px; }
 	input[type=text], input[type=email], input[type=tel], input[type=url], textarea { width: 90%; }
 	.custom-posts-title { font-size: 20px; font-size: 1.25rem; }
 	.content-slide-title { font-size: 22px; font-size: 1.375rem; }
 	.content-list { padding-bottom: 20px; }
-	.mh-footer, .no-comments, .sb-widget, .home-main-widget, .footer-widget, .custom-posts-small, .sb-widget .custom-posts-small:first-child, .custom-posts-small, .sb-widget .custom-posts-small:first-child, .footer-widget .custom-posts-small:first-child { margin-top: 20px; }
+	.mh-footer, .no-comments, .sb-widget, .home-main-widget, .custom-posts-small, .sb-widget .custom-posts-small:first-child, .custom-posts-small, .sb-widget .custom-posts-small:first-child { margin-top: 20px; }
 }
 @media only screen and (max-width: 460px) {
 	.logo-title { font-size: 28px; font-size: 1.75rem; }
@@ -582,7 +592,7 @@ table a { font-weight: 700; }
 	.cp-excerpt { font-size: 13px; font-size: 0.8125rem; }
 	.custom-posts-thumb { padding: 0; }
 	.footer-info, .post-nav-wrap li, .pagination .page-numbers, .pagination .pagelink, .content-slide-category, .widget-title, .author-box-title { font-size: 12px; font-size: 0.75rem; }
-	.content-slide-title, .post-wrapper .entry-title, .archive-title, .content-list-title, .sb-widget .cp-title, .footer-widget .cp-title { font-size: 18px; font-size: 1.125rem; }
+	.content-slide-title, .post-wrapper .entry-title, .archive-title, .content-list-title, .sb-widget .cp-title { font-size: 18px; font-size: 1.125rem; }
 }
 @media only screen and (max-width: 320px) {
 	.post-nav-wrap li { font-size: 11px; font-size: 0.6875rem; }

@@ -3,7 +3,7 @@ Theme URI: http://www.mhthemes.com/themes/mh/squared-lite/
 Tags: Magazine, News, Blog, Responsive
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 MH Squared lite WordPress Theme, Copyright 2015 MH Themes
@@ -61,6 +61,11 @@ Overview: http://demo.mh-themes.com/squared/credits/
 ==================================
 Changelog
 ==================================
+
+= v1.0.1 07-07-2015 =
+* Several CSS adjustments
+* Improved styling for default WordPress widgets
+* Fixed issue with large horizontal scroll bar in RTL layout
 
 = v1.0.0 30-05-2015 =
 * Initial release

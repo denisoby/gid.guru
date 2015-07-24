@@ -77,7 +77,7 @@ if (!function_exists('mh_squared_lite_scripts')) {
 	function mh_squared_lite_scripts() {
 		wp_enqueue_style('mh-google-fonts', "//fonts.googleapis.com/css?family=Quantico:400,700|PT+Sans:400,700", array(), null);
 		wp_enqueue_style('mh-font-awesome', get_template_directory_uri() . '/includes/font-awesome.min.css', array(), null);
-		wp_enqueue_style('mh-style', get_stylesheet_uri(), false, '1.0.0');
+		wp_enqueue_style('mh-style', get_stylesheet_uri(), false, '1.0.1');
 		wp_enqueue_script('mh-scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'));
 		if (!is_admin()) {
 			if (is_singular() && comments_open() && (get_option('thread_comments') == 1))
