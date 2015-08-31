@@ -1,0 +1,1 @@
+<input type="text" value="[ad id='<?php echo esc_attr($post->ID); ?>']"  readonly="readonly">

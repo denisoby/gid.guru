@@ -1,0 +1,152 @@
+.hide {
+    display: none;
+}
+/*Switch*/
+.ch_switch {
+    width: 92px;
+    height: 32px;
+    position: relative;
+}
+.ch_switch label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.ch_switch input {
+    bottom: 0;
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.ch_switch label:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0; right: 0; bottom: 0; left: 0;
+    border-radius: inherit;
+    background: url(../img/switch.png) no-repeat ;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+}
+
+.ch_switch label i {
+    display: block;
+    height: 30px;
+    width: 48px;
+    border: 1px solid #dedede;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+-webkit-border-radius: 3px 0px 0px 3px;
+border-radius: 3px 0px 0px 3px;
+background: #f7f7f7;
+background: -moz-linear-gradient(top,  #f7f7f7 0%, #efefef 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#efefef));
+background: -webkit-linear-gradient(top,  #f7f7f7 0%,#efefef 100%);
+background: -o-linear-gradient(top,  #f7f7f7 0%,#efefef 100%);
+background: -ms-linear-gradient(top,  #f7f7f7 0%,#efefef 100%);
+background: linear-gradient(to bottom,  #f7f7f7 0%,#efefef 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#efefef',GradientType=0 );
+}
+
+.ch_switch label i:before {
+    content: "off";
+    position: absolute;
+    top: 0;
+    right:-44px;
+    width: 44px;
+    text-align: center;
+    height: 100%;
+    line-height: 30px;
+    color: #c64f4f;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.ch_switch input:checked ~ label { /* Background */
+}
+ 
+.ch_switch input:checked ~ label i { /* Toggle */
+    left: auto;
+    right: 0;
+-webkit-border-radius: 0 3px 3px 0;
+border-radius: 0 3px 3px 0;
+}
+
+.ch_switch input:checked ~ label i:before { /* On/off */
+    content: "on";
+    right: 48px;
+    color: #a9c700;
+}
+
+
+/*  Radio image */
+.rwmb-radioimg-wrapper label {
+    margin-right: 4px;
+    position: relative;
+}
+.rwmb-radioimg-wrapper:not(.select_device) img {
+    border: 1px solid #e2e2e2;
+}
+.rwmb-radioimg-wrapper:not(.select_device) img:hover {
+    border-color: orange;
+}
+input.radio_img {
+    display: none;
+}
+.rwmb-radioimg-wrapper:not(.select_device) .radio_img:checked+img {
+    border: 1px solid orange;
+}
+
+.select_device .radio_img:checked+img+i:before {
+	content: "\e0a0";
+	position: absolute;
+	font-size: 16px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+	color: #000;
+	font-family: momizat;
+	font-style: normal;
+        left: 50%;
+        top: 50%;
+        margin-left: -10px;
+        margin-top: -13px;
+}
+
+.select_device label {
+    margin-right: 15px;
+    display: inline-block;
+    position: relative;
+}
+/* Description */
+p.description {
+    padding:5px;
+    clear: both;
+}
+
+.min_plupload div.rwmb-drag-drop {
+    border: 2px dashed #DDDDDD ;
+    height: 90px;
+    width: 300px;    
+}
+
+.min_plupload .drag-drop .drag-drop-inside {
+    margin: 12px auto 0;
+    width: 250px;
+}
+

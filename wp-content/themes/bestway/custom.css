@@ -1,0 +1,20 @@
+.topbar {
+    background: #000;
+}
+
+.topbar ul.nav-menu li > a {
+    text-transform: uppercase;
+}
+
+.attention {
+  margin: 0 0 30px;
+  padding: 20px 20px 20px 0;
+  background-color: #FFB400;
+}
+.attention .attention_text {
+  font-style: italic;
+  padding-left: 20px;
+}
+html div.attention div.attention_text a{
+  color: #000
+}
