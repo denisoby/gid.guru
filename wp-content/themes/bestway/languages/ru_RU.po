@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Bestway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-10 13:01+0200\n"
-"PO-Revision-Date: 2015-08-28 20:02+0300\n"
+"PO-Revision-Date: 2015-09-01 13:17+0300\n"
 "Language-Team: Themelions <admin@themelions.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,7 +82,7 @@ msgstr "Написать Комментарий"
 
 #: C:\Users\Momizat\Desktop\bestway/comments.php:68
 msgid "Comment..."
-msgstr ""
+msgstr "Комментировать..."
 
 #: C:\Users\Momizat\Desktop\bestway/comments.php:69
 #, php-format
@@ -1189,7 +1189,7 @@ msgstr ""
 
 #: C:\Users\Momizat\Desktop\bestway/framework/functions/comments.php:49
 msgid "Your comment is awaiting moderation."
-msgstr ""
+msgstr "Ваш комментарий ожидает проверки модератором."
 
 #: C:\Users\Momizat\Desktop\bestway/framework/functions/comments.php:52
 msgid "Reply"
@@ -6769,12 +6769,12 @@ msgstr ""
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/default-loop.php:19
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/single-post.php:17
 msgid "0 comments"
-msgstr ""
+msgstr "0 комментариев"
 
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/default-loop.php:19
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/single-post.php:17
 msgid "1 comment"
-msgstr ""
+msgstr "1 комментарий"
 
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/default-loop.php:27
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/list-loop.php:16
@@ -6785,7 +6785,7 @@ msgstr ""
 
 #: C:\Users\Momizat\Desktop\bestway/framework/shortcodes/editor/templates/single-post.php:17
 msgid "%n comments"
-msgstr ""
+msgstr "%n комментариев"
 
 #: C:\Users\Momizat\Desktop\bestway/framework/sidebars/sidebars.php:20
 msgid "Delete sidebar"
@@ -7106,7 +7106,7 @@ msgstr ""
 
 #: C:\Users\Momizat\Desktop\bestway/framework/widgets/recent-comments.php:74
 msgid "Recent Comments"
-msgstr ""
+msgstr "Свежие Комментарии"
 
 #: C:\Users\Momizat\Desktop\bestway/framework/widgets/recent-comments.php:102
 msgid "Number Of Comments:"

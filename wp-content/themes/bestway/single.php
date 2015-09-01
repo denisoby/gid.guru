@@ -54,10 +54,7 @@
 					$hide_pc = mom_option('blog_pc');
 				    }
 				?>
-			<?php if ($hide_ps != true)  { mom_share_it(); } ?>
 			<?php if ($hide_np != true)  { mom_post_nav(); } ?>
-			<?php if ($hide_ab != true)  { mom_author_box(); } ?>
-			<?php if ($hide_rp != true)  { mom_related_posts();} ?>
                         <?php if ($hide_pc != true)  { comments_template();} ?>
 			</div>
 			<?php } ?>
