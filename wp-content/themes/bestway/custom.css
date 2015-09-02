@@ -48,6 +48,9 @@ body {
 	margin-left: 70px;
 }
 
+.comments_list li .comment_info .comment_author_name {
+	color: #cea36c;
+}
 .comments_list li .children {
     list-style: none;
 }
