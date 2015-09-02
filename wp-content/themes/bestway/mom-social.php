@@ -1,3 +1,4 @@
+<noindex>
     <ul class="social_icons">
         <?php if(mom_option('twitter_url') != '') { ?>
         <li class="twitter"><a href="<?php echo esc_url(mom_option('twitter_url')); ?>"><i class="bt-icon-twitter"></i></a></li>
@@ -63,4 +64,4 @@
         <li class="rss"><a href="<?php echo esc_url($url); ?>"><i class="bt-icon-rss"></i></a></li>
         <?php } ?>
     </ul>
-
+</noindex>
