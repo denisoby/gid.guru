@@ -45,7 +45,7 @@ class mom_widget_recent_comments extends WP_Widget {
                                     </div>
                                     <?php } ?>
                                     <div class="author_comment <?php echo  esc_attr($has_avatar); ?>">
-                                    <h4><a href="<?php echo esc_url(get_permalink($comment->ID)); ?>#comment-<?php echo esc_attr($comment->comment_ID); ?>" title="<?php echo strip_tags($comment->comment_author); ?> <?php _e('on ', 'framework'); ?><?php echo esc_attr($comment->post_title); ?>"><?php echo strip_tags($comment->comment_author); ?></a> <span class="date"><?php _e('on', 'theme'); ?> <?php echo date_i18n('d M', strtotime($comment->comment_date_gmt)); ?> </span></h4><span class="rc-post"><?php _e('in:', 'theme'); ?> <a href="<?php echo esc_url(get_permalink($comment->ID)); ?>"><?php echo esc_html($comment->post_title); ?></a></span>
+                                    <h4><a href="<?php echo esc_url(get_permalink($comment->ID)); ?>#comment-<?php echo esc_attr($comment->comment_ID); ?>" title="<?php echo strip_tags($comment->comment_author); ?> <?php _e('on ', 'framework'); ?><?php echo esc_attr($comment->post_title); ?>"><strong><?php echo strip_tags($comment->comment_author); ?></strong></a> <?php _e('in:', 'theme'); ?></h4><span class="rc-post"><a href="<?php echo esc_url(get_permalink($comment->ID)); ?>"><?php echo esc_html($comment->post_title); ?></a></span>
                                     </div>
                                 </li>
                           <?php endforeach; ?>

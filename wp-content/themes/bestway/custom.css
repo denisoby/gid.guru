@@ -1,20 +1,22 @@
-.topbar {
-    background: #000;
+body {
+	font-family: 'PT Sans', sans-serif;
 }
 
 .topbar ul.nav-menu li > a {
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 .attention {
-  margin: 0 0 30px;
-  padding: 20px 20px 20px 0;
-  background-color: #FFB400;
+	margin: 0 0 30px;
+	background-color: #CEA36C;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAE2ElEQVR4Xu2bXW7cNhCASa7fbKDuCWKfoOs3WxRQ5wRJTpD4BHVO0PYEWZ8g7gm6OUETQFz7LZsTJD1B14D0JpHBBBQgqLvmcDjU5iEEDBhYLTn8OP/iSjHRKIpirpR6JoSYO+dOpJTz4dLOubWU8osQYm2tfbdardZTiCZzLnJ+fn4ym81+E0I8l1KexKzlnAMYy67rbu7v7+H/LCMLgPl8fnx4ePhGSvmKQ2rn3G3TNK/X6/WGY77hHOwAiqJ4pZR6I4Q4ZhZ203Xd1d3d3ZJzXlYAWuu3XKe+a5OgDcaYKy4ILABA5Y+Ojt6CrXMJFphnWdf1FYdJsAAoy/LvCTffs1lWVfUiFXgygCnUftcmrbU3q9XqOgVCEoCLi4vns9kMTn9vo+u6FymOkQzA2/1norf/YK1dK6W+hTVr7bFSChKjXwkkN3Vdn1L9ARmA1vpWSvkyQuAHIcSiruvFLmE9VFBp+PsJO7dz7i9jDCnnIAGADO/g4ABOHzVAwKZprrGn5BOpRQzgtm1PKRkjCUBRFAulFKS4wZHiqKZYhwRAa/0Zk9unqGZPFmtqUDsYY06DJzJ6IBqAr+o+hhZyzv1rjIkqgHbNqbX+IqV8ElrTWnsWW0VGAyjL8g8hxO8IYa5Wq9Vt6DnM576+gEzz0eGce22MWYSeG34eDUBrvZRSQl2/c3Ce/sAUglrgnHtnjIlKxykAPo6bGWMSHLY/nhPjC6CpYow5y6oBZVm60ALWWjb179fCmkFVVVGHGvUwCIMBIIR4WlXV+xComM/LsrwUQvwT+s4PAD80IL8JgGqHipY/q6qCcMk2kOH3Q1VVYCroQfEBGADRgoQk1loHo48QInrdaACYcASboRYn20Bgiy9K+I0GgFRFQRFmlxZgoQshok2PAgAVjmAzlNx8DAEb/vz3osNvNACsOnqBNm3bnlHqdPi+XwsKL9Q7BorZRQMAwbDVWQ/BWvs0tkrzVSckPqjNU+sPEoCYRkUPwbfDbkJdId8Wg2ZLVBilNl5IABK6wRvn3BL+rLWfetMAVVdK/SKlhJeoUM2hTn3oL6jdYRIAf0r/hWL3lJ/Xdf1zSLu2yUMC4P1AsC8wFQBKH6CXjQwAW55OASGl/CYD+J7MgKr+cDhkAN4MYl+OsCtEasaZBCAyS2PfPDX7GwqSBICQFLFCoCY/3ACupZRwJWbykeL8kqNAP4F3hnCLC/0yk4nUQ13XJ5TYz6oBMBm2RGbaeD9NdOnLmggNJ9tDSGQ5/eQwOIQQ0bRIVoTU0MduAjChr93hemtuX8B2+qwaMKEvYLF9tiiwxRfkjAisp8+uARNoAevpZwHg7/fA1ffghYYYbwhZX9M089S4P14zORXetokcpTJH1pctD9g2cVmWmDdIWCWIfuODnTiLBsDi2LtEGEE53i/sWicbAA8BfZ1ul4DUbi8GbBYnyBwW2cPeJE5wuEhCC11QW93Y08+uAb0gRIeYzfFlqQUeo06oEx7atp1T3yl+dxoAAmmt0Z0jyoXHmE1PrgGRpjCJ6mcphkKngDCF7F5/8igwXvCxqDCF1987AO8P/vdChbPLE9LEvfmAfuFxxeic+9Q0zSV3pYcBkTUVfkyAQa3wYK29jL1Bgtkc5pm9AfC1wrcfOnH9rgCz4fEzXwG0n6JfCfaxagAAAABJRU5ErkJggg==");
+	background-position: 20px center;
+	background-repeat: no-repeat;
 }
 .attention .attention_text {
-  font-style: italic;
-  padding-left: 20px;
+	font-style: italic;
+	padding: 25px 20px 25px 100px;
 }
-html div.attention div.attention_text a{
-  color: #000
+.attention_text a {
+	text-decoration: underline;
 }
