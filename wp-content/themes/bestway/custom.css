@@ -17,15 +17,17 @@ body {
 .widget ul li a {
 	font-size: 16px;	
 }
-.mom-recent-comments .author_comment .rc-post a {
+.widget-comment-title .widget-comment-author a {
+	color: #3c3c3c;
+}
+.widget-comment-title a {
 	color: #CEA36C;
 }
-.mom-recent-comments .author_comment .rc-post a:hover {
+.widget-comment-title a:hover {
 	text-decoration: underline;
 }
-.mom-recent-comments .author_comment h4 {
-	font-size: 16px;
-	color: #3c3c3c;
+.widget-comment-excerpt {
+	margin-top: 10px;
 }
 .mom-recent-comments .author_comment.has_avatar {
 	margin-left: 70px;
