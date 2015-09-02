@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Bestway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-10 13:01+0200\n"
-"PO-Revision-Date: 2015-09-02 22:05+0300\n"
+"PO-Revision-Date: 2015-09-02 23:11+0300\n"
 "Language-Team: Themelions <admin@themelions.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,7 +110,7 @@ msgstr "Сайт"
 
 #: C:\Users\Momizat\Desktop\bestway/content-archive.php:5
 msgid "Browsing Category"
-msgstr "Текущая Рубрика"
+msgstr "Вы просматриваете рубрику:"
 
 #: C:\Users\Momizat\Desktop\bestway/content-archive.php:7
 msgid "Browsing Tag"
