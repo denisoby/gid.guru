@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Bestway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-10 13:01+0200\n"
-"PO-Revision-Date: 2015-09-02 23:11+0300\n"
+"PO-Revision-Date: 2015-09-03 00:06+0300\n"
 "Language-Team: Themelions <admin@themelions.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1185,7 +1185,7 @@ msgstr ""
 #: C:\Users\Momizat\Desktop\bestway/framework/functions/comments.php:43
 #, php-format
 msgid "%1$s at %2$s"
-msgstr ""
+msgstr "%1$s в %2$s"
 
 #: C:\Users\Momizat\Desktop\bestway/framework/functions/comments.php:49
 msgid "Your comment is awaiting moderation."

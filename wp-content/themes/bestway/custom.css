@@ -1,6 +1,21 @@
 .scroll-back-to-top-wrapper {
 	width: 100%;
 }
+#toc_container {
+	padding:20px;
+	border: none;
+}
+#toc_container p.toc_title {
+	font-weight: 400;
+	text-align: left;
+	font-size:21px;
+}
+.toc_list a, .toc_list a:hover {
+	color: #cea36c;
+}
+#toc_container a span:after{
+	content:".";
+}
 
 body {
 	font-family: 'PT Sans', sans-serif;
@@ -21,7 +36,7 @@ body {
 	color: #3c3c3c;
 }
 .widget-comment-title a {
-	color: #CEA36C;
+	color: #cea36c;
 }
 .widget-comment-title a:hover {
 	text-decoration: underline;
@@ -31,6 +46,10 @@ body {
 }
 .mom-recent-comments .author_comment.has_avatar {
 	margin-left: 70px;
+}
+
+.comments_list li .children {
+    list-style: none;
 }
 
 .topbar ul.nav-menu li > a {
