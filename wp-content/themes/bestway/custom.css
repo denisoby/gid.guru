@@ -73,3 +73,19 @@ body {
 .attention_text a {
 	text-decoration: underline;
 }
+
+@media screen and (max-width: 768px) {
+	.attention {
+		background-position: center 5px;
+	}
+	.attention .attention_text {
+		padding: 69px 5px 5px 5px;
+	}
+
+	.inner {
+		padding: 0 10px;
+	}
+	.post_content {
+		padding: 0;
+	}
+}
