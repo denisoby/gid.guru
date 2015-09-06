@@ -1,16 +1,16 @@
 <?php
-add_image_size( 'post_large_image', '655', '419', 1);
-add_image_size( 'grid_slider_image', '498', '288', 1);
-add_image_size( 'feature_slider_big', '679', '550', 1);
-add_image_size( 'feature_slider_small', '317', '273', 1);
-add_image_size( 'feature_slider_square', '330', '263', 1);
-add_image_size( 'post_list', '290', '207', 1);
+//add_image_size( 'post_large_image', '655', '419', 1);
+//add_image_size( 'grid_slider_image', '498', '288', 1);
+//add_image_size( 'feature_slider_big', '679', '550', 1);
+//add_image_size( 'feature_slider_small', '317', '273', 1);
+//add_image_size( 'feature_slider_square', '330', '263', 1);
+//add_image_size( 'post_list', '290', '207', 1);
 
 
-add_image_size( 'portfolio_thumb', '330', '211', 1);
-add_image_size( 'portfolio_thumb2', '497', '318', 1);
-add_image_size( 'portfolio_thumb4', '247', '158', 1);
-add_image_size( 'portfolio_thumb_HD', '660', '422', 1);
+//add_image_size( 'portfolio_thumb', '330', '211', 1);
+//add_image_size( 'portfolio_thumb2', '497', '318', 1);
+//add_image_size( 'portfolio_thumb4', '247', '158', 1);
+//add_image_size( 'portfolio_thumb_HD', '660', '422', 1);
 
 $mom_thumbs_sizes = array(
 'thumbnail' => array(get_option( 'thumbnail_size_w' ), get_option( 'thumbnail_size_h' )),
