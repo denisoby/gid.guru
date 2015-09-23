@@ -47,7 +47,6 @@ if (function_exists('is_buddypress') && is_buddypress()) {
 	<link rel="apple-touch-icon" href="<?php echo esc_url(MOM_URI); ?>/apple-touch-icon-precomposed.png" />
 	<?php } ?>
 
-	<link rel="pingback" href="<?php echo esc_url(get_bloginfo( 'pingback_url' )); ?>" />
 	<!--[if lt IE 9]>
 	<script src="<?php echo get_template_directory_uri(); ?>/framework/helpers/js/html5.js"></script>
 	<script src="<?php echo get_template_directory_uri(); ?>/framework/helpers/js/IE9.js"></script>
