@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function amt_get_default_options() {
     return array(
-        "settings_version"  => 15,       // IMPORTANT: SETTINGS UPGRADE: Every time settings are added or removed this has to be incremented.
+        "settings_version"  => 16,       // IMPORTANT: SETTINGS UPGRADE: Every time settings are added or removed this has to be incremented.
         "site_description"  => "",      // Front page description
         "site_keywords"     => "",      // Front page keywords
         "global_keywords"   => "",      // These keywords are added to the 'keywords' meta tag on all posts and pages
@@ -76,6 +76,8 @@ function amt_get_default_options() {
         "noindex_tag_archives"       => "0",
         "noindex_taxonomy_archives"  => "0",
         "noindex_author_archives"    => "0",
+        "enforce_custom_title_in_metadata"    => "0",
+        "enable_advanced_title_management"    => "0",
         "metabox_enable_description"     => "1",
         "metabox_enable_keywords"        => "1",
         "metabox_enable_title"           => "1",
@@ -222,6 +224,11 @@ function amt_plugin_upgrade() {
     // Version 2.9.0 (settings_version 14->15)
     // Added "schemaorg_force_jsonld"
     // Added "force_media_limit"
+    // No migrations required. Addition takes place in (1).
+
+    // Version 2.9.2 (settings_version 15->16)
+    // Added "enforce_custom_title_in_metadata"
+    // Added "enable_advanced_title_management"
     // No migrations required. Addition takes place in (1).
 
 

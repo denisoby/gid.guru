@@ -1,11 +1,11 @@
 === Remove Category URL ===
-Contributors: valeriosza
+Contributors: valeriosza, wordlab
 Tags: categories, category base, category, permalinks, URL structure, links, seo, cms, wpml, URL
 Requires at least: 3.1
-Tested up to: 4.2
-Stable tag: 1.0.2
+Tested up to: 4.3.2
+Stable tag: 1.1
 License: GPLv2
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=P5QTGDB64SU8E&lc=US&item_name=WordPress%20Plugins&no_note=0&cn=Adicionar%20instru%c3%a7%c3%b5es%20especiais%20para%20o%20vendedor%3a&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+Donate link: http://wordlab.com.br/donate/
 
 This plugin removes '/category' from your category permalinks. (e.g. `/category/my-category/` to `/my-category/`)
 
@@ -62,6 +62,9 @@ A particular installation does not allow the rewrite feature in disabling the pl
 1. No Category URL
 
 == Changelog ==
+
+= 1.1 =
+* Fix Erros
 
 = 1.0.2 =
 * Update Compatible with WPML.

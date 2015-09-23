@@ -1,10 +1,10 @@
 === Add Meta Tags ===
 Contributors: gnotaras
 Donate link: http://bit.ly/HvUakt
-Tags: amt, meta, metadata, seo, optimize, ranking, description, keywords, metatag, schema, opengraph, dublin core, schema.org, microdata, google, twitter cards, google plus, yahoo, bing, search engine optimization, rich snippets, semantic, structured, meta tags, product, woocommerce, edd, breadcrumbs, breadcrumb trail, multilingual, multilanguage, hreflang
+Tags: amt, meta, metadata, seo, optimize, ranking, description, keywords, metatag, schema, opengraph, dublin core, schema.org, microdata, google, twitter cards, google plus, yahoo, bing, search engine optimization, rich snippets, semantic, structured, meta tags, product, woocommerce, edd, breadcrumbs, breadcrumb trail, multilingual, multilanguage, hreflang, json-ld
 Requires at least: 3.1.0
 Tested up to: 4.3
-Stable tag: 2.9.1
+Stable tag: 2.9.3
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -22,6 +22,7 @@ It is actively maintained since 2006 (historical [Add-Meta-Tags home](http://www
 
 = Highlights of the latest releases =
 
+- Since v2.9.2 advanced SEO title customization has been built into Add-Meta-Tags. ([learn more](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Advanced_Title_Management))
 - Since v2.8.9 experimental build-in support for the popular multilingual plugins WPML and Polylang has been implemented.
 - Since v2.8.7 a basic template tag for the generation of a *semantic breadcrumb trail* for hierarchically structured content types, such as pages, is available for use in your themes ([more info](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Semantic_Breadcrumbs)).
 - Since v2.8.0 Add-Meta-Tags supports the generation of metadata for *product* and *product group* pages for the *WooCommerce* and *Easy-Digital-Downloads* e-commerce plugins ([more info](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Metadata_Generators_Key_Notes#Metadata-for-products)).
@@ -74,7 +75,7 @@ The main features of the plugin include:
 * The various metadata types are generated for posts, pages, custom post types, attachment pages, category, tag, custom-taxonomy, author archives and the front page. Please note that not all generators produce metadata for all the aforementioned content types. In some cases, this happens because of limitations of the metadata specification. Moreover, the generators are constantly being improved so as to produce as complete metadata as possible.
 * Supports both the default 'latest posts' front page or static pages, which are used as the front page and as the 'latest posts' page.
 * Supports the generation of [metadata for embedded media](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Metadata_Generators_Key_Notes#Metadata-for-embedded-media) (only a subset of the embeddable media in WordPress are supported)
-* Supports the generation of [metadata for *product* and *product group* pages](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Metadata_Generators_Key_Notes#Metadata-for-products) for the *WooCommerce* and *Easy-Digital-Downloads* e-commerce plugins. (This featured is marked as `Work-In-Progress`)
+* Supports the generation of [metadata for *product* and *product group* pages](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Metadata_Generators_Key_Notes#Metadata-for-products) for the *WooCommerce* and *Easy-Digital-Downloads* (partial) e-commerce plugins.
 * The metadata generators support social media profile links for each author.
 * Publisher settings shared by all authors (currently only social media profile links).
 * Custom locale setting, which is used in all generated metadata. (Should not be used in conjuction with a multilingual plugin.)
@@ -105,7 +106,7 @@ The generation of metadata is automatic. However, customization by the user is p
 * Full meta tags box, which can be used to enter full meta tags (`<meta>` and `<link>` elements are allowed by default), which are specific to the post.
 * Global image override field, which accepts an image URL, which, if set, overrides the generation of the metadata for any other media file that has been attached to the post.
 * Content locale override, which lets users override the locale on a per post basis. (Should not be used in conjuction with a multilingual plugin.)
-* Express review, which adds a field that accepts review related information using special notation, which results in the generation of a [Review](http://schema.org/Review) schema.org entity instead of [Article](http://schema.org/Article). This feature is experimental and should be used only by advanced users for testing.
+* Express review, which adds a field that accepts review related information using special notation, which results in the generation of a [Review](http://schema.org/Review) schema.org entity instead of [Article](http://schema.org/Article). This feature should be used only by advanced users for testing.
 * Referenced items. (Note: Using this very experimental feature is not recommended.)
 
 **Advanced Customization**
@@ -255,15 +256,22 @@ Screenshots as of v2.4.0
 
 == Upgrade Notice ==
 
-= 2.9.1 =
-
-In 2.9.0 publisher social media profile links can no longer be set in the WordPress user profile pages. Please move such data to the 'Publisher Settings' section of the Add-Meta-Tags settings page (Settings->Metadata).
-
 
 == Changelog ==
 
 Please check out the changelog of each release by following the links below. You can also check the [roadmap](http://www.codetrax.org/projects/wp-add-meta-tags/roadmap "Add-Meta-Tags Roadmap") regarding future releases of the plugin.
 
+- [2.9.3](http://www.codetrax.org/versions/300)
+ - The full meta tags field is now set as translatable in the wpml-config.xml file. (props to Werner Grunberger for feedback)
+ - Re-added the %title% tag expansion functionality in the custom title. (props to ndrwpvlv for feedback)
+- [2.9.2](http://www.codetrax.org/versions/299)
+ - Advanced SEO title management and customization has been built into Add-Meta-Tags. Needs to be enabled in the settings. Read [more info](http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Advanced_Title_Management) about how to customize the titles. This feature is currently marked as experimental. Your feedback is welcome.
+ - Option to force the use of the content's custom title, if one has been set in the post editing screen, in the titles within the metadata. By default the custom title is used only for the 'title' HTML element. (Props to fatherb, bolt24, vtinath, Craig Damon and others)
+ - Fixed missing schema.org properties of video schema.org objects. (Props to Dragos for reporting the issue and for useful feedback)
+ - Fixed several translatable strings. (Props to Burak Yavuz for valuable feedback.)
+ - Dublin Core generator follows media item limits. (Props to Eduardo Molon for feedback.)
+ - Internal media limit (configurable via filter) increased from 10 to 16. (Props to Eduardo Molon for feedback.)
+ - Minor improvements of the schema.org metadata generators.
 - [2.9.1](http://www.codetrax.org/versions/298)
  - The Twitter Cards, Opengraph and Schema.org microdata and JSON+LD generators for WooCommerce products have been greatly improved and are ready for general testing.
  - Updated the Turkish translation. (props to BouRock for tirelessly maintaining the Turkish translation)

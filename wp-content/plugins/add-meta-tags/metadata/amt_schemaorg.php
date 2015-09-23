@@ -174,6 +174,8 @@ function amt_add_schemaorg_metadata_footer( $post, $attachments, $embedded_media
         $metadata_arr[] = '<span itemscope itemtype="http://schema.org/WebSite">';
         // name
         $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_bloginfo('name') ) . '" />';
+        // headline - contains title information
+        $metadata_arr['microdata:headline'] = '<meta itemprop="headline" content="' . esc_attr( amt_get_title_for_metadata($options, $post) ) . '" />';
         // alternateName (The WordPress tag line is used.)
         // TODO: use tag line. Needs feedback!
         //$metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_bloginfo('name') ) . '" />';
@@ -206,8 +208,8 @@ function amt_add_schemaorg_metadata_footer( $post, $attachments, $embedded_media
         // Organization
         // Scope BEGIN: Organization: http://schema.org/Organization
         $metadata_arr[] = '<!-- Scope BEGIN: Organization -->';
-        $metadata_arr[] = '<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization"' . amt_get_schemaorg_itemref('organization') . '>';
-        // Get publisher metatags
+        $metadata_arr[] = '<span itemprop="mainEntity" itemscope itemtype="http://schema.org/Organization"' . amt_get_schemaorg_itemref('organization') . '>';
+        // Get publisher/mainEntity metatags
         $metadata_arr = array_merge( $metadata_arr, amt_get_schemaorg_publisher_metatags( $options ) );
         // Scope END: Organization
         $metadata_arr[] = '</span> <!-- Scope END: Organization -->';
@@ -232,6 +234,9 @@ function amt_add_schemaorg_metadata_footer( $post, $attachments, $embedded_media
         $metadata_arr[] = '<!-- Scope BEGIN: Person -->';
         $metadata_arr[] = '<span itemscope itemtype="http://schema.org/Person"' . amt_get_schemaorg_itemref('person_author') . '>';
         
+        // headline - contains title information
+        $metadata_arr['microdata:headline'] = '<meta itemprop="headline" content="' . esc_attr( amt_get_title_for_metadata($options, $author) ) . '" />';
+
         // Get author metatags
         $metadata_arr = array_merge( $metadata_arr, amt_get_schemaorg_author_metatags( $author->ID ) );
 
@@ -308,6 +313,9 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
         // name
         // Note: Contains multipage information through amt_process_paged()
         $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( amt_process_paged( get_the_title($post->ID) ) ) . '" />';
+
+        // headline - contains title information
+        $metadata_arr['microdata:headline'] = '<meta itemprop="headline" content="' . esc_attr( amt_get_title_for_metadata($options, $post) ) . '" />';
 
         // Description - We use the description defined by Add-Meta-Tags
         // Note: Contains multipage information through amt_process_paged()
@@ -427,7 +435,7 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
             return $post_body;
         }
 
-        // Metadata commong to all attachments
+        // Metadata common to all attachments
 
         // Publisher
         // Scope BEGIN: Organization: http://schema.org/Organization
@@ -447,6 +455,18 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
         // Scope END: Person
         $metadata_arr[] = '</span> <!-- Scope END: Person -->';
 
+        // name
+        $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_the_title($post->ID) ) . '" />';
+
+        // headline - contains title information
+        $metadata_arr['microdata:headline'] = '<meta itemprop="headline" content="' . esc_attr( amt_get_title_for_metadata($options, $post) ) . '" />';
+
+        // Description - We use the description defined by Add-Meta-Tags
+        $content_desc = amt_get_content_description($post);
+        if ( ! empty($content_desc) ) {
+            $metadata_arr[] = '<meta itemprop="description" content="' . esc_attr( $content_desc ) . '" />';
+        }
+
         // Dates
         $metadata_arr[] = '<meta itemprop="datePublished" content="' . esc_attr( amt_iso8601_date($post->post_date) ) . '" />';
         $metadata_arr[] = '<meta itemprop="dateModified" content="' . esc_attr( amt_iso8601_date($post->post_modified) ) . '" />';
@@ -455,6 +475,19 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
         // Language
         $metadata_arr[] = '<meta itemprop="inLanguage" content="' . esc_attr( str_replace('-', '_', amt_get_language_content($options, $post)) ) . '" />';
 
+        // Thumbnail
+        // A featured image is supported by video and audio attachments.
+        // If one is set, then it is set as the thumbnail of the video/audio object.
+        if ( 'video' == $attachment_type || 'audio' == $attachment_type ) {
+            if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+                // Thumbnail URL of the featured image
+                $image_size = apply_filters( 'amt_image_size_attachment', 'full' );
+                $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), $image_size );
+                $metadata_arr[] = '<meta itemprop="thumbnailUrl" content="' . esc_url_raw( $thumbnail_info[0] ) . '" />';
+                // Currently we do not add a full ImageObject for the attachment's featured image.
+                // TODO: future
+            }
+        }
 
         // Metadata specific to each attachment type
 
@@ -476,6 +509,8 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
             $metadata_arr[] = '<meta itemprop="url" content="' . esc_url_raw( get_permalink( $post->ID ) ) . '" />';
             $metadata_arr[] = '<meta itemprop="contentUrl" content="' . esc_url_raw( wp_get_attachment_url($post->ID) ) . '" />';
             $metadata_arr[] = '<meta itemprop="encodingFormat" content="' . esc_attr( $mime_type ) . '" />';
+            // Required by Google
+            $metadata_arr[] = '<meta itemprop="uploadDate" content="' . esc_attr( amt_iso8601_date($post->post_date) ) . '" />';
             // Add the post body here
             $metadata_arr[] = $post_body;
             // Scope END: VideoObject
@@ -558,8 +593,8 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
         // Note: Contains multipage information through amt_process_paged()
         $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( amt_process_paged( get_the_title($post->ID) ) ) . '" />';
 
-        // headline
-        $metadata_arr[] = '<meta itemprop="headline" content="' . esc_attr( get_the_title($post->ID) ) . '" />';
+        // headline - contains title information
+        $metadata_arr['microdata:headline'] = '<meta itemprop="headline" content="' . esc_attr( amt_get_title_for_metadata($options, $post) ) . '" />';
 
         // Description - We use the description defined by Add-Meta-Tags
         // Note: Contains multipage information through amt_process_paged()
@@ -707,6 +742,27 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
                         $metadata_arr[] = '<meta itemprop="url" content="' . esc_url_raw( get_permalink( $attachment->ID ) ) . '" />';
                         $metadata_arr[] = '<meta itemprop="contentUrl" content="' . esc_url_raw( wp_get_attachment_url($attachment->ID) ) . '" />';
                         $metadata_arr[] = '<meta itemprop="encodingFormat" content="' . esc_attr( $mime_type ) . '" />';
+                        // name
+                        $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_the_title($attachment->ID) ) . '" />';
+                        // Description - We use the description defined by Add-Meta-Tags
+                        $content_desc = amt_get_content_description($attachment);
+                        if ( ! empty($content_desc) ) {
+                            $metadata_arr[] = '<meta itemprop="description" content="' . esc_attr( $content_desc ) . '" />';
+                        }
+                        // Thumbnail
+                        // A featured image is supported by video and audio attachments.
+                        // If one is set, then it is set as the thumbnail of the video/audio object.
+                        if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $attachment->ID ) ) {
+                            // Thumbnail URL of the featured image
+                            $image_size = apply_filters( 'amt_image_size_content', 'full' );
+                            $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($attachment->ID), $image_size );
+                            $metadata_arr[] = '<meta itemprop="thumbnailUrl" content="' . esc_url_raw( $thumbnail_info[0] ) . '" />';
+                            // Currently we do not add a full ImageObject for the attachment's featured image.
+                            // TODO: future
+                        }
+                        // uploadDate
+                        $metadata_arr[] = '<meta itemprop="uploadDate" content="' . esc_attr( amt_iso8601_date($attachment->post_date) ) . '" />';
+
                         // Scope END: VideoObject
                         $metadata_arr[] = '</span> <!-- Scope END: VideoObject -->';
 
@@ -723,6 +779,26 @@ function amt_add_schemaorg_metadata_content_filter( $post_body ) {
                         $metadata_arr[] = '<meta itemprop="url" content="' . esc_url_raw( get_permalink( $attachment->ID ) ) . '" />';
                         $metadata_arr[] = '<meta itemprop="contentUrl" content="' . esc_url_raw( wp_get_attachment_url($attachment->ID) ) . '" />';
                         $metadata_arr[] = '<meta itemprop="encodingFormat" content="' . esc_attr( $mime_type ) . '" />';
+                        // name
+                        $metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_the_title($attachment->ID) ) . '" />';
+                        // Description - We use the description defined by Add-Meta-Tags
+                        $content_desc = amt_get_content_description($attachment);
+                        if ( ! empty($content_desc) ) {
+                            $metadata_arr[] = '<meta itemprop="description" content="' . esc_attr( $content_desc ) . '" />';
+                        }
+                        // Thumbnail
+                        // A featured image is supported by video and audio attachments.
+                        // If one is set, then it is set as the thumbnail of the video/audio object.
+                        if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $attachment->ID ) ) {
+                            // Thumbnail URL of the featured image
+                            $image_size = apply_filters( 'amt_image_size_content', 'full' );
+                            $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($attachment->ID), $image_size );
+                            $metadata_arr[] = '<meta itemprop="thumbnailUrl" content="' . esc_url_raw( $thumbnail_info[0] ) . '" />';
+                            // Currently we do not add a full ImageObject for the attachment's featured image.
+                            // TODO: future
+                        }
+                        // uploadDate
+                        $metadata_arr[] = '<meta itemprop="uploadDate" content="' . esc_attr( amt_iso8601_date($attachment->post_date) ) . '" />';
                         // Scope END: AudioObject
                         $metadata_arr[] = '</span> <!-- Scope END: AudioObject -->';
 
@@ -1184,6 +1260,10 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
 
         // name
         $metadata_arr['name'] = esc_attr( get_bloginfo('name') );
+
+        // headline - contains title information
+        $metadata_arr['headline'] = esc_attr( amt_get_title_for_metadata($options, $post) );
+
         // alternateName (The WordPress tag line is used.)
         // TODO: use tag line. Needs feedback!
         //$metadata_arr[] = '<meta itemprop="name" content="' . esc_attr( get_bloginfo('name') ) . '" />';
@@ -1222,9 +1302,9 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
         // Organization
         // Scope BEGIN: Organization: http://schema.org/Organization
 //        $metadata_arr[] = '<!-- Scope BEGIN: Organization -->';
-//        $metadata_arr[] = '<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization"' . amt_get_schemaorg_itemref('organization') . '>';
-        $metadata_arr['publisher'] = amt_get_jsonld_schemaorg_publisher_array($options);
-        // Get publisher metatags
+//        $metadata_arr[] = '<span itemprop="mainEntity" itemscope itemtype="http://schema.org/Organization"' . amt_get_schemaorg_itemref('organization') . '>';
+        $metadata_arr['mainEntity'] = amt_get_jsonld_schemaorg_publisher_array($options);
+        // Get publisher/mainEntity metatags
 //        $metadata_arr = array_merge( $metadata_arr, amt_get_schemaorg_publisher_metatags( $options ) );
         // Scope END: Organization
 //        $metadata_arr[] = '</span> <!-- Scope END: Organization -->';
@@ -1250,6 +1330,9 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
 //        $metadata_arr[] = '<span itemscope itemtype="http://schema.org/Person"' . amt_get_schemaorg_itemref('person_author') . '>';
         $metadata_arr['@type'] = 'Person';
 
+        // headline - contains title information
+        $metadata_arr['headline'] = esc_attr( amt_get_title_for_metadata($options, $author) );
+
         // Get author metatags
 //        $metadata_arr = array_merge( $metadata_arr, amt_get_schemaorg_author_metatags( $author->ID ) );
         $metadata_arr = array_merge( $metadata_arr, amt_get_jsonld_schemaorg_author_array( $author->ID ) );
@@ -1274,6 +1357,9 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
         // name
         // Note: Contains multipage information through amt_process_paged()
         $metadata_arr['name'] = esc_attr( amt_process_paged( get_the_title($post->ID) ) );
+
+        // headline - contains title information
+        $metadata_arr['headline'] = esc_attr( amt_get_title_for_metadata($options, $post) );
 
         // Description - We use the description defined by Add-Meta-Tags
         // Note: Contains multipage information through amt_process_paged()
@@ -1427,6 +1513,18 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
         // Scope END: Person
 //        $metadata_arr[] = '</span> <!-- Scope END: Person -->';
 
+        // name
+        $metadata_arr['name'] = esc_attr( get_the_title($post->ID) );
+
+        // headline - contains title information
+        $metadata_arr['headline'] = esc_attr( amt_get_title_for_metadata($options, $post) );
+
+        // Description - We use the description defined by Add-Meta-Tags
+        $content_desc = amt_get_content_description($post);
+        if ( ! empty($content_desc) ) {
+            $metadata_arr['description'] = esc_attr( $content_desc );
+        }
+
         // Dates
         $metadata_arr['datePublished'] = esc_attr( amt_iso8601_date($post->post_date) );
         $metadata_arr['dateModified'] = esc_attr( amt_iso8601_date($post->post_modified) );
@@ -1435,6 +1533,19 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
         // Language
         $metadata_arr['inLanguage'] = esc_attr( str_replace('-', '_', amt_get_language_content($options, $post)) );
 
+        // Thumbnail
+        // A featured image is supported by video and audio attachments.
+        // If one is set, then it is set as the thumbnail of the video/audio object.
+        if ( 'video' == $attachment_type || 'audio' == $attachment_type ) {
+            if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+                // Thumbnail URL of the featured image
+                $image_size = apply_filters( 'amt_image_size_attachment', 'full' );
+                $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), $image_size );
+                $metadata_arr['thumbnailUrl'] = esc_url_raw( $thumbnail_info[0] );
+                // Currently we do not add a full ImageObject for the attachment's featured image.
+                // TODO: future
+            }
+        }
 
         // Metadata specific to each attachment type
 
@@ -1456,6 +1567,8 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
             $metadata_arr['url'] = esc_url_raw( get_permalink( $post->ID ) );
             $metadata_arr['contentUrl'] = esc_url_raw( wp_get_attachment_url($post->ID) );
             $metadata_arr['encodingFormat'] = esc_attr( $mime_type );
+            // Required by Google
+            $metadata_arr['uploadDate'] = esc_attr( amt_iso8601_date($post->post_date) );
             // Add the post body here
 //            $metadata_arr[] = $post_body;
             // Scope END: VideoObject
@@ -1544,8 +1657,8 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
         // Note: Contains multipage information through amt_process_paged()
         $metadata_arr['name'] = esc_attr( amt_process_paged( get_the_title($post->ID) ) );
 
-        // headline
-        $metadata_arr['headline'] = esc_attr( get_the_title($post->ID) );
+        // headline - contains title information
+        $metadata_arr['headline'] = esc_attr( amt_get_title_for_metadata($options, $post) );
 
         // Description - We use the description defined by Add-Meta-Tags
         // Note: Contains multipage information through amt_process_paged()
@@ -1741,6 +1854,27 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
                         $current_video_obj['url'] = esc_url_raw( get_permalink( $attachment->ID ) );
                         $current_video_obj['contentUrl'] = esc_url_raw( wp_get_attachment_url($attachment->ID) );
                         $current_video_obj['encodingFormat'] = esc_attr( $mime_type );
+                        // name
+                        $current_video_obj['name'] = esc_attr( get_the_title($attachment->ID) );
+                        // Description - We use the description defined by Add-Meta-Tags
+                        $content_desc = amt_get_content_description($attachment);
+                        if ( ! empty($content_desc) ) {
+                            $current_video_obj['description'] = esc_attr( $content_desc );
+                        }
+                        // Thumbnail
+                        // A featured image is supported by video and audio attachments.
+                        // If one is set, then it is set as the thumbnail of the video/audio object.
+                        if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $attachment->ID ) ) {
+                            // Thumbnail URL of the featured image
+                            $image_size = apply_filters( 'amt_image_size_content', 'full' );
+                            $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($attachment->ID), $image_size );
+                            $current_video_obj['thumbnailUrl'] = esc_url_raw( $thumbnail_info[0] );
+                            // Currently we do not add a full ImageObject for the attachment's featured image.
+                            // TODO: future
+                        }
+                        // uploadDate
+                        $current_video_obj['uploadDate'] = esc_attr( amt_iso8601_date($attachment->post_date) );
+
                         $metadata_arr['video'][] = $current_video_obj;
                         // Scope END: VideoObject
 //                        $metadata_arr[] = '</span> <!-- Scope END: VideoObject -->';
@@ -1759,6 +1893,27 @@ function amt_add_jsonld_schemaorg_metadata_head( $post, $attachments, $embedded_
                         $current_audio_obj['url'] = esc_url_raw( get_permalink( $attachment->ID ) );
                         $current_audio_obj['contentUrl'] = esc_url_raw( wp_get_attachment_url($attachment->ID) );
                         $current_audio_obj['encodingFormat'] = esc_attr( $mime_type );
+                        // name
+                        $current_audio_obj['name'] = esc_attr( get_the_title($attachment->ID) );
+                        // Description - We use the description defined by Add-Meta-Tags
+                        $content_desc = amt_get_content_description($attachment);
+                        if ( ! empty($content_desc) ) {
+                            $current_audio_obj['description'] = esc_attr( $content_desc );
+                        }
+                        // Thumbnail
+                        // A featured image is supported by video and audio attachments.
+                        // If one is set, then it is set as the thumbnail of the video/audio object.
+                        if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $attachment->ID ) ) {
+                            // Thumbnail URL of the featured image
+                            $image_size = apply_filters( 'amt_image_size_content', 'full' );
+                            $thumbnail_info = wp_get_attachment_image_src( get_post_thumbnail_id($attachment->ID), $image_size );
+                            $current_audio_obj['thumbnailUrl'] = esc_url_raw( $thumbnail_info[0] );
+                            // Currently we do not add a full ImageObject for the attachment's featured image.
+                            // TODO: future
+                        }
+                        // uploadDate
+                        $current_audio_obj['uploadDate'] = esc_attr( amt_iso8601_date($attachment->post_date) );
+
                         $metadata_arr['audio'][] = $current_audio_obj;
                         // Scope END: AudioObject
 //                        $metadata_arr[] = '</span> <!-- Scope END: AudioObject -->';
