@@ -1,3 +1,18 @@
+.breadcrumbs {
+    	border-top: 1px solid #ebebeb;
+    	border-bottom: 1px solid #ebebeb;
+	margin-bottom: 1em;
+}
+
+.breadcrumbs a {
+	font-size: 20px;
+	line-height: 2em;
+    	color: #cea36c;
+}
+
+.widget .widget_title {
+	line-height: 2em;
+}
 .scroll-back-to-top-wrapper {
 	width: 100%;
 }

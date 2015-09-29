@@ -22,4 +22,4 @@ Disallow: *?page_number*
 Allow: *.css*
 Allow: *.js*
 
-Host: tatuh.net
+Host: gid.guru
