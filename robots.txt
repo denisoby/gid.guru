@@ -22,4 +22,6 @@ Disallow: *?page_number*
 Allow: *.css*
 Allow: *.js*
 
+Sitemap: http://gid.guru/sitemap.xml
+
 Host: gid.guru
