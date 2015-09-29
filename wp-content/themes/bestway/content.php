@@ -1,5 +1,5 @@
                             <article <?php post_class('post_style'); ?>>
-<?php 
+<?php
 	if (is_category()) {
     		$cat = get_query_var('cat');
     		$category = get_category($cat);

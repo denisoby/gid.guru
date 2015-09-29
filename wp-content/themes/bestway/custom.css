@@ -9,6 +9,9 @@
 	line-height: 2em;
     	color: #cea36c;
 }
+.breadcrumbs a:hover {
+	text-decoration: underline;
+}
 
 .widget .widget_title {
 	line-height: 2em;
