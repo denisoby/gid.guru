@@ -10,8 +10,7 @@
 <?php get_header(); ?>
 		<?php if ($hide_page_title != true) { ?>
 	    <header class="header_page">
-		<div class="inner">
-		<span class="br_title"><?php _e('Browsing Page', 'theme'); ?></span>
+		<div class="inner">		
 		<h1 class="page_title main_title cpt"><?php the_title(); ?></h1>
 		</div>
 	    </header>

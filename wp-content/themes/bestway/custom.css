@@ -1,3 +1,27 @@
+.scroll-back-to-top-wrapper {
+	height: 100%;
+}
+.scroll-back-to-top-wrapper:hover {
+	opacity: 0.8;
+}
+.scroll-back-to-top-inner {
+    position: relative;
+    top: 50%;
+}
+
+a, a:link, .copyright p a {
+	color: #cea36c;
+}
+a:hover, .entry-content a:hover {
+	color: #cea36c;
+	text-decoration: underline;
+}
+.topbar ul.nav-menu li > a:hover, .entry-title a:hover {
+	text-decoration: none;
+}
+.copyright p {
+	line-height: 1.5em;
+}
 .breadcrumbs {
     	border-top: 1px solid #ebebeb;
     	border-bottom: 1px solid #ebebeb;
@@ -7,27 +31,12 @@
 .breadcrumbs a {
 	font-size: 20px;
 	line-height: 2em;
-    	color: #cea36c;
 }
-.breadcrumbs a:hover {
-	text-decoration: underline;
-}
-
 .widget .widget_title {
 	line-height: 2em;
 }
-.scroll-back-to-top-wrapper {
-	width: 100%;
-}
 
-.entry-content a {
-	text-decoration: underline;
-	color: #cea36c;
-}
 .entry-content img {
-	width: 100%;
-}
-.scroll-back-to-top-wrapper {
 	width: 100%;
 }
 #toc_container {
@@ -39,9 +48,7 @@
 	text-align: left;
 	font-size:21px;
 }
-.toc_list a, .toc_list a:hover {
-	color: #cea36c;
-}
+
 #toc_container a span:after{
 	content:".";
 }
@@ -104,6 +111,22 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+	.breadcrumbs a {
+		font-size: 14px;
+		line-height: 1.5em;
+	}
+	.scroll-back-to-top-wrapper {
+		height: 40px;
+		right: 20px;
+		bottom: 10px;
+	}
+	.scroll-back-to-top-wrapper.show {
+		opacity: 0.8;
+	}
+	.scroll-back-to-top-inner {
+    		position: relative;
+    		top: 0;
+	}
 	.attention {
 		background-position: center 5px;
 	}
