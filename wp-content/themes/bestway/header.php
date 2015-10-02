@@ -100,7 +100,7 @@ if (function_exists('is_buddypress') && is_buddypress()) {
 	    <?php } else { ?>
 	    <header id="header" class="header <?php echo esc_attr($mom_header_style); ?>" >
 		<div id="header-wrapper" class="inner">
-		    	<?php echo mom_logo(); ?>
+		    	<?php echo mom_logo(); ?>			
 		</div><!--End Inner-->
 	   <?php get_template_part('navigation', 'menu'); ?>
 	    </header><!--End Header-->
