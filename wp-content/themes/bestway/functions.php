@@ -13,6 +13,14 @@ function allow_contributor_uploads() {
 	$contributor->add_cap('upload_files');
 }
 
+// remove image attributes and [CAPTION]
+function remove_width_attribute( $html ) {
+   $html = preg_replace( '/(width|height|alt|class)="[^"]*?"\s/', "", $html );
+   return $html;
+}
+
+add_filter( 'image_send_to_editor', 'remove_width_attribute', 10 );
+
 // remove deafault quicktags
 function remove_quicktags( $qtInit ) {
     $qtInit['buttons'] = 'link';
@@ -31,6 +39,10 @@ function appthemes_add_quicktags() {
 	QTags.addButton( 'eg_em', 'Курсив', '<em>', '</em>', 'none', 'EM tag', 4 );
 	QTags.addButton( 'eg_ul', 'Список НЕнумерованный','<ul>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ul>\n', '', 'none', 'UL tag', 5 );
 	QTags.addButton( 'eg_ol', 'Список нумерованный','<ol>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ol>\n', '', 'none', 'OL tag', 6 );
+	QTags.addButton( 'eg_p', 'p', '<p>', '</p>', 'none', 'P simple tag', 7 );
+	QTags.addButton( 'eg_ul', 'ul', '<ul>\n', '\n</ul>', 'none', 'UL simple tag', 8 );
+	QTags.addButton( 'eg_ol', 'ol', '<ol>\n', '\n</ol>', 'none', 'OL simple tag', 9 );
+	QTags.addButton( 'eg_li', 'li', '<li><p>', '</p></li>', 'none', 'LI simple tag', 10 );
     </script>
 <?php
     }
