@@ -37,12 +37,13 @@ function appthemes_add_quicktags() {
 	QTags.addButton( 'eg_header_3', 'h3', '<h3>', '</h3>', 'none', 'Header 3 tag', 2 );
 	QTags.addButton( 'eg_strong', 'Жирный', '<strong>', '</strong>', 'none', 'Strong tag', 3 );
 	QTags.addButton( 'eg_em', 'Курсив', '<em>', '</em>', 'none', 'EM tag', 4 );
-	QTags.addButton( 'eg_ul', 'Список НЕнумерованный','<ul>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ul>\n', '', 'none', 'UL tag', 5 );
-	QTags.addButton( 'eg_ol', 'Список нумерованный','<ol>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ol>\n', '', 'none', 'OL tag', 6 );
-	QTags.addButton( 'eg_p', 'p', '<p>', '</p>', 'none', 'P simple tag', 7 );
-	QTags.addButton( 'eg_ul', 'ul', '<ul>\n', '\n</ul>', 'none', 'UL simple tag', 8 );
-	QTags.addButton( 'eg_ol', 'ol', '<ol>\n', '\n</ol>', 'none', 'OL simple tag', 9 );
-	QTags.addButton( 'eg_li', 'li', '<li><p>', '</p></li>', 'none', 'LI simple tag', 10 );
+	QTags.addButton( 'eg_ul_template', 'Список НЕнумерованный','<ul>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ul>\n', '', 'none', 'UL tag', 5 );
+	QTags.addButton( 'eg_ol_template', 'Список нумерованный','<ol>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n<li><p>Text</p></li>\n</ol>\n', '', 'none', 'OL tag', 6 );
+	QTags.addButton( 'eg_p_simple', 'p', '<p>', '</p>', 'none', 'P simple tag', 7 );
+	QTags.addButton( 'eg_ul_simple', 'ul', '<ul>\n', '\n</ul>', 'none', 'UL simple tag', 8 );
+	QTags.addButton( 'eg_ol_simple', 'ol', '<ol>\n', '\n</ol>', 'none', 'OL simple tag', 9 );
+	QTags.addButton( 'eg_li_simple', 'li', '<li><p>', '</p></li>', 'none', 'LI simple tag', 10 );
+	QTags.addButton( 'eg_video_youtube', 'Видео', '[embed]', '[/embed]', 'none', 'Youtube video tag', 11 );
     </script>
 <?php
     }
