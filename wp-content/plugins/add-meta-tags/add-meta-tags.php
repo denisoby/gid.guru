@@ -3,7 +3,7 @@
 Plugin Name: Add Meta Tags
 Plugin URI: http://www.g-loaded.eu/2006/01/05/add-meta-tags-wordpress-plugin/
 Description: Add basic meta tags and also Opengraph, Schema.org Microdata, Twitter Cards and Dublin Core metadata to optimize your web site for better SEO.
-Version: 2.9.4
+Version: 2.9.5
 Author: George Notaras
 Author URI: http://www.g-loaded.eu/
 License: Apache License v2
@@ -55,23 +55,27 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-// Store plugin directory
-define( 'AMT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
 // Store plugin main file path
 define( 'AMT_PLUGIN_FILE', __FILE__ );
+// Store plugin directory
+// NOTE: TODO: Consider using __DIR__ (requires PHP >=5.3) instead of dirname.
+// See: http://stackoverflow.com/questions/2220443/whats-better-of-requiredirname-file-myparent-php-than-just-require#comment18170996_12129877
+//define( 'AMT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'AMT_PLUGIN_DIR', dirname(AMT_PLUGIN_FILE) . '/' );
 
 // Import modules
-require_once( AMT_PLUGIN_DIR . 'amt-settings.php' );
-require_once( AMT_PLUGIN_DIR . 'amt-admin-panel.php' );
-require_once( AMT_PLUGIN_DIR . 'amt-utils.php' );
-require_once( AMT_PLUGIN_DIR . 'amt-template-tags.php' );
-require_once( AMT_PLUGIN_DIR . 'amt-embed.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_basic.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_twitter_cards.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_opengraph.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_dublin_core.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_schemaorg.php' );
-require_once( AMT_PLUGIN_DIR . 'metadata/amt_extended.php' );
+require( AMT_PLUGIN_DIR . 'amt-settings.php' );
+require( AMT_PLUGIN_DIR . 'amt-admin-panel.php' );
+require( AMT_PLUGIN_DIR . 'amt-utils.php' );
+require( AMT_PLUGIN_DIR . 'amt-template-tags.php' );
+require( AMT_PLUGIN_DIR . 'amt-embed.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_basic.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_twitter_cards.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_opengraph.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_dublin_core.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_schemaorg.php' );
+require( AMT_PLUGIN_DIR . 'metadata/amt_extended.php' );
 
 /**
  * Translation Domain
@@ -99,7 +103,7 @@ add_filter( 'plugin_action_links', 'amt_plugin_actions', 10, 2 );
 /**
  * Replaces the text to be used in the title element, if a replacement text has been set.
  */
-function amt_custom_title_tag($title) {
+function amt_custom_title_tag($title, $separator) {
 
     if ( is_feed() || is_search() || is_404() ) {
         return $title;
@@ -119,7 +123,7 @@ function amt_custom_title_tag($title) {
     // WordPress adds multipage information if a custom title is not set.
     return $title;
 }
-add_filter('wp_title', 'amt_custom_title_tag', 1000);
+add_filter('wp_title', 'amt_custom_title_tag', 1000, 2);
 
 
 /**
@@ -403,4 +407,3 @@ function amt_add_metadata_review($post_body) {
 
 add_filter('the_content', 'amt_add_metadata_review', 9999);
 
-?>

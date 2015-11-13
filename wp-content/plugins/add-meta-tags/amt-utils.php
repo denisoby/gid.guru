@@ -277,8 +277,10 @@ function amt_get_the_excerpt( $post, $excerpt_max_len=300, $desc_avg_length=250,
         // First strip all HTML tags
         $plain_text = wp_kses( $initial_content, array() );
 
-        // Strip shortcodes
+        // Strip properly registered shortcodes
         $plain_text = strip_shortcodes( $plain_text );
+        // Also strip any shortcodes (For example, required for the removal of Visual Composer shortcodes)
+        $plain_text = preg_replace('#\[[^\]]+\]#', '', $plain_text);
 
         // Late preprocessing filter. Content has no HTML tags and no properly registered shortcodes. Other shortcodes might still exist.
         $plain_text_processed = apply_filters( 'amt_get_the_excerpt_plain_text', $plain_text, $post );
@@ -710,7 +712,7 @@ function amt_get_content_keywords($post, $auto=true, $exclude_categories=false) 
     /**
      * Finally, add the global keywords, if they are set in the administration panel.
      */
-    #if ( !empty($content_keywords) && ( is_singular() || amt_is_static_front_page() || amt_is_static_home() ) ) {
+    //if ( !empty($content_keywords) && ( is_singular() || amt_is_static_front_page() || amt_is_static_home() ) ) {
     if ( $auto && ( is_singular() || amt_is_static_front_page() || amt_is_static_home() ) ) {
 
         $options = get_option("add_meta_tags_opts");
@@ -2381,6 +2383,9 @@ function amt_get_title_for_title_element($options, $post) {
         // Author Archives
         'archive_author'        => '#entity_title# profile | #site_name#',
         'archive_author_paged'  => 'Content published by #entity_title# | Page #page# | #site_name#',
+        // Custom Post Type Archives
+        'archive_posttype_POSTTYPESLUG'        => '#entity_title# Archive | #site_name#',
+        'archive_posttype_POSTTYPESLUG_paged'  => '#entity_title# Archive | Page #page# | #site_name#',
         // Content
         // Content::Attachment
         'content_attachment'        => '#entity_title# | #site_name#',
@@ -2403,8 +2408,8 @@ function amt_get_title_for_title_element($options, $post) {
         //'content_post_quote'  => 'Quote: #entity_title# | #site_name#',
         //'content_post_chat'  => 'Chat: #entity_title# | #site_name#',
         // Content::Custom-Post-Type
-        'content_custom'        => '#entity_title# | #site_name#',
-        'content_custom_paged'  => '#entity_title# | Page #page# | #site_name#',
+        'content_POSTTYPESLUG'        => '#entity_title# | #site_name#',
+        'content_POSTTYPESLUG_paged'  => '#entity_title# | Page #page# | #site_name#',
         // is_error - TODO
         // is_search - TODO
     );
@@ -2456,6 +2461,9 @@ function amt_get_title_for_metadata($options, $post) {
         // Author Archives
         'archive_author'        => '#entity_title# profile',
         'archive_author_paged'  => 'Content published by #entity_title# | Page #page#',
+        // Custom Post Type Archives
+        'archive_posttype_POSTTYPESLUG'        => '#entity_title# Archive',
+        'archive_posttype_POSTTYPESLUG_paged'  => '#entity_title# Archive | Page #page#',
         // Content
         // Content::Attachment
         'content_attachment'        => '#entity_title#',
@@ -2478,8 +2486,8 @@ function amt_get_title_for_metadata($options, $post) {
         //'content_post_quote'  => 'Quote: #entity_title#',
         //'content_post_chat'  => 'Chat: #entity_title#',
         // Content::Custom-Post-Type
-        'content_custom'        => '#entity_title#',
-        'content_custom_paged'  => '#entity_title# | Page #page#',
+        'content_POSTTYPESLUG'        => '#entity_title#',
+        'content_POSTTYPESLUG_paged'  => '#entity_title# | Page #page#',
         // is_error - TODO
         // is_search - TODO
     );
@@ -2720,6 +2728,21 @@ function amt_internal_get_title($options, $post, $title_templates, $force_custom
                 $entity_title_template = $title_templates['archive_author_paged'];
             } elseif ( array_key_exists('archive_author', $title_templates) ) {
                 $entity_title_template = $title_templates['archive_author'];
+            }
+        }
+
+    // Custom Post Type Archive
+    } elseif ( is_post_type_archive() ) {
+        // Entity title
+        $entity_title = post_type_archive_title( $prefix='', $display=false );
+        // Entity title template
+        // $post is a content type object
+        $template_name = 'archive_posttype_' . $post->name;
+        if ( array_key_exists('enable_advanced_title_management', $options) && $options['enable_advanced_title_management'] == '1' ) {
+            if ( $page && $page >= 2 && array_key_exists($template_name . '_paged', $title_templates) ) {
+                $entity_title_template = $title_templates[$template_name . '_paged'];
+            } elseif ( array_key_exists($template_name, $title_templates) ) {
+                $entity_title_template = $title_templates[$template_name];
             }
         }
 

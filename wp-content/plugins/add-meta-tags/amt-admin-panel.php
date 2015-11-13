@@ -69,7 +69,10 @@ function amt_admin_init() {
 
     // Perform automatic settings upgrade based on settings version.
     // Also creates initial default settings automatically.
-    amt_plugin_upgrade();
+    // NOTE: Reverted back to the test performed in amt-settings.php, because otherwise
+    // the ``is_array($options) && array_has_key('foo', $options)`` should be performed
+    // every time a setting value is retrieved from the settings array.
+    //amt_plugin_upgrade();
 
     // Register scripts and styles
 
@@ -380,6 +383,8 @@ function amt_admin_help_tabs() {
     <h3>'.__('Enable advanced SEO title management.', 'add-meta-tags').'</h3>
 
     <p>'.__('By enabling this option, Add-Meta-Tags generates the title that is used in the <code>title</code> HTML element and also the title that is used throughout the generated metadata according to user defined templates. The <em>Add-Meta-Tags Cookbook</em> has all the information you need about <a target="_blank"  href="http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Advanced_Title_Management">how to customize the generated titles</a>.', 'add-meta-tags').'</p>
+
+    <p>'.__('Please make sure to check the <a href="http://www.codetrax.org/projects/wp-add-meta-tags/wiki/Requirements#Advanced-Title-Management" target="_blank">theme requirements</a> before enabling this feature.', 'add-meta-tags').'</p>
 
     <h3>'.__('Copyright URL', 'add-meta-tags').'</h3>
 
