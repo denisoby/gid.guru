@@ -6,7 +6,7 @@
     <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-	<title><?php wp_title('|', true, 'right'); ?> <?php bloginfo('name'); ?></title>
+	<title><?php wp_title('|', true, 'right'); ?></title>
 	<?php if(mom_option('enable_responsive') != true) { ?>
 	<meta name="viewport" content="user-scalable=yes, minimum-scale=0.25, maximum-scale=3.0" />
 	<?php } else {  ?>
