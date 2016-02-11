@@ -57,6 +57,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function amt_add_basic_metadata_head( $post, $attachments, $embedded_media, $options ) {
 
+    if ( apply_filters('amt_exclude_basic_metadata', false) ) {
+        return array();
+    }
+
     $do_description = (($options["auto_description"] == "1") ? true : false );
     $do_keywords = (($options["auto_keywords"] == "1") ? true : false );
     $do_noodp_description = (($options["noodp_description"] == "1") ? true : false );
@@ -64,23 +68,251 @@ function amt_add_basic_metadata_head( $post, $attachments, $embedded_media, $opt
     // Array to store metadata
     $metadata_arr = array();
 
+    // Pre-processing
 
-    // Robots Meta Tag.
-    $robots_content = '';
+    // Store hreflang links in array
+    $hreflang_links_arr = array();
 
-    if ( $do_noodp_description && ( is_front_page() || is_singular() ) ) {
+    // Store base robots options
+    $robots_options = array();
+
+    if ( $do_noodp_description && ( is_front_page() || is_singular() || is_category() || is_tag() || is_tax() || is_author() ) ) {
         // Add NOODP on posts and pages
-        $robots_content = 'NOODP,NOYDIR';
-        // Allow filtering of the robots meta tag content.
-        $robots_content = apply_filters( 'amt_robots_data', $robots_content );
-    }
-    // Add a robots meta tag if its content is not empty.
-    if ( ! empty( $robots_content ) ) {
-        $metadata_arr['basic:robots'] = '<meta name="robots" content="' . $robots_content . '" />';
+        $robots_options[] = 'noodp';
+        $robots_options[] = 'noydir';
     }
 
+    // Store full meta tags (site wide and post specific)
+
+    // Add site wide meta tags
+    $full_metatags_as_string = '';
+    if ( ! empty( $options['site_wide_meta'] ) ) {
+        $full_metatags_for_site = html_entity_decode( stripslashes( $options['site_wide_meta'] ) );
+        $full_metatags_as_string .= apply_filters('amt_full_metatags_site', $full_metatags_for_site);
+        $full_metatags_as_string .= PHP_EOL;
+    }
+
+    // Full meta tags
+    if ( is_singular() || amt_is_static_front_page() || amt_is_static_home() ) {
+        // per post full meta tags
+        $full_metatags_for_content = amt_get_post_meta_full_metatags( $post->ID );
+        $full_metatags_for_content = html_entity_decode( stripslashes( $full_metatags_for_content ) );
+        $full_metatags_as_string .= apply_filters('amt_full_metatags_post', $full_metatags_for_content);
+    } elseif ( is_category() || is_tag() || is_tax() ) {
+        // Term specific full meta tags ($post is a term object)
+        $full_metatags_for_term = amt_get_term_meta_full_metatags( $post->term_id );
+        $full_metatags_for_term = html_entity_decode( stripslashes( $full_metatags_for_term ) );
+        $full_metatags_as_string .= apply_filters('amt_full_metatags_term', $full_metatags_for_term);
+    } elseif ( is_author() ) {
+        // User specific full meta tags ($post is a user object)
+        $full_metatags_for_user = amt_get_user_meta_full_metatags( $post->ID );
+        $full_metatags_for_user = html_entity_decode( stripslashes( $full_metatags_for_user ) );
+        $full_metatags_as_string .= apply_filters('amt_full_metatags_term', $full_metatags_for_user);
+    }
+
+    // Sanitize
+    //$full_metatags_as_string = esc_textarea( wp_kses( $full_metatags_as_string, amt_get_allowed_html_kses() ) );
+    $full_metatags_as_string = wp_kses( $full_metatags_as_string, amt_get_allowed_html_kses() );
+
+    // Make array of full meta tags
+    $full_meta_tags = preg_split('#\R#', $full_metatags_as_string, NULL, PREG_SPLIT_NO_EMPTY);
+
+    // Process
+
+    if ( apply_filters('amt_full_metatags_processor_enable', true) ) {
+
+        // Store processed meta tags here
+        $processed_full_meta_tags = array();
+
+        // Field substitutions currently take place only on content pages.
+        // TODO: See if this can be expanded to terms, authors.
+
+        // Store the post's custom fields
+        $custom_fields = null;
+
+        // Store the post object's custom fields.
+        //
+        if ( is_singular() || amt_is_static_front_page() || amt_is_static_home() ) {
+            // Get an array of all custom fields names of the post object.
+            $custom_fields = get_post_custom_keys( $post->ID );
+        }
+
+        // Iterate over full meta tags
+
+        foreach ($full_meta_tags as $single_meta_tag) {
+
+            // Note: Field value substitutions take place first, outside the elseif clauses.
+
+            // Process substitutions of special notation with data from Custom Fields
+            // Supported special notation:
+            //   [field=Field Name]
+            // Notes:
+            // - 'Field Name' is the name of custom field.
+            // - If the custom field with name 'Field Name' does not exist, the meta tag
+            //   that contains it is omitted.
+            // - If the value of the field is an empty string, then the substitution
+            //   takes place normally.
+            //
+
+            // The regex pattern fo our special notation.
+            $special_notation_pattern = '#(?:\[field\=)([^\]]+)(?:\])#';
+
+            // The following covers content pages, as $custom_fields is only set on content pages. See above.
+            if ( ! empty( $custom_fields ) && isset($post->ID) ) {
+                // This also assumes that we have a post object since custom fields
+                // are set only on content pages, otherwise it is null.
+
+                // Check for special notation
+                if ( preg_match($special_notation_pattern, $single_meta_tag, $matches) ) {
+                    //var_dump($matches);
+                    // If the field name of the special notation does not match
+                    // any custom field name, omit the meta tag as per the rules above.
+                    if ( ! in_array($matches[1], $custom_fields) ) {
+                        continue;
+                    }
+                    // Since there is special notation and the field name from the special
+                    // notation exists in the $custom_fields array, iterate over the available
+                    // custom fields and perform the substitutions.
+                    foreach ( $custom_fields as $custom_field ) {
+                        // Check if it matches the field name of the special notation
+                        if ( $custom_field == $matches[1] ) {
+                            // Fetch the custom field's value
+                            $field_value = get_post_meta( $post->ID, $custom_field, true );
+                            // Sanitize value
+                            // TODO: this can be a problem depending on the value and the used sanitization function.
+                            $field_value = esc_attr( sanitize_text_field( $field_value ) );
+                            // Perform the substitution even if the the value is an empty string as per the rules above
+                            $single_meta_tag = str_replace( sprintf('[field=%s]', $custom_field), $field_value, $single_meta_tag);
+                        }
+                    }
+                }
+
+            } else {
+                // In any other case, just remove the meta tags which contain the special notation.
+                if ( preg_match($special_notation_pattern, $single_meta_tag, $tmp) ) {
+                    continue;
+                }
+            }
+
+            // Process the PAGEINFO variable.
+            // If the current page is the 1st page of any archive or of multipage content,
+            // PAGEINFO is just stripped. For subsequent pages of archives or multipage
+            // content, PAGEINFO is replaced with page based path (page/N/ for archives or N/ for multipage content)
+            //
+            // For paginated archives or paginated main page with latest posts.
+            $has_paging_info = false;
+            if ( is_paged() ) {
+                $paged = get_query_var( 'paged' );  // paged
+                if ( $paged && $paged >= 2 ) {
+                    $single_meta_tag = str_replace('PAGEINFO', 'page/' . $paged . '/', $single_meta_tag);
+                    $has_paging_info = true;
+                }
+            // For a Post or Page that has been divided into pages using the <!--nextpage--> QuickTag
+            } else {
+                $paged = get_query_var( 'page' );  // page
+                if ( $paged && $paged >= 2 ) {
+                    $single_meta_tag = str_replace('PAGEINFO', $paged . '/', $single_meta_tag);
+                    $has_paging_info = true;
+                }
+            }
+            // If this is not paged, strip PAGEINFO
+            if ( $has_paging_info === false ) {
+                $single_meta_tag = str_replace('PAGEINFO', '', $single_meta_tag);
+            }
+
+            // Process custom canonical link
+            // If a rel="canonical" meta tags exists, we deactivate WordPress' 'rel_canonical' action,
+            // Since it is assumed that a custom canonical link has been added.
+            //if ( preg_match( '# rel="canonical" #', $post_full_meta_tags, $tmp ) ) {
+            if ( strpos($single_meta_tag, ' rel="canonical" ') !== false ) {
+                // Remove default WordPress action
+                remove_action('wp_head', 'rel_canonical');
+            }
+
+            // Process robots meta tags.
+            // Multiple robots meta tags may exist. Here we collect the options.
+            elseif ( strpos($single_meta_tag, ' name="robots" ') !== false ) {
+                if ( preg_match( '# content="([^"]+)" #', $single_meta_tag, $matches ) ) {
+                    $tmp_robots_opts = explode(',', $matches[1]);
+                    foreach ($tmp_robots_opts as $single_robots_option) {
+                        $single_robots_option_cleaned = strtolower(trim($single_robots_option));
+                        if ( ! empty($single_robots_option_cleaned) ) {
+                            $robots_options[] = $single_robots_option_cleaned;
+                        }
+                    }
+                }
+                // We simply collect options. Do not add any robots meta tags to the processed meta tags array.
+                continue;
+            }
+
+            // Process hreflang links.
+            // Here we just collect them and let them be process later below at the special section.
+            elseif ( strpos($single_meta_tag, ' hreflang="') !== false ) {
+                // Simply add to the hreflang links array for later processing
+                $hreflang_links_arr[] = $single_meta_tag;
+                // We simply collect hreflang links for later processing. Do not add them to the processed meta tags array.
+                continue;
+            }
+
+
+            // If we have reached here, add the meta tags to the array with processed meta tags.
+            $processed_full_meta_tags[] = $single_meta_tag;
+
+        }
+
+    } else {
+        // Full meta tags processor not enabled
+        $processed_full_meta_tags = $full_meta_tags;
+    }
+
+    //var_dump($full_meta_tags);
+    //var_dump($processed_full_meta_tags);
+
+    // Add Meta Tags
+
+    // Add a robots meta tag if robots options exist.
+    // Backwards compatible filter. TODO: This is deprecated. Needs to be deleted after a while.
+    $old_options_as_string = apply_filters( 'amt_robots_data', '' );
+    if ( ! empty($old_options_as_string) ) {
+        foreach ( explode(',', $old_options_as_string) as $single_robots_option) {
+            $single_robots_option_cleaned = strtolower(trim($single_robots_option));
+            if ( ! empty($single_robots_option_cleaned) ) {
+                $robots_options[] = $single_robots_option_cleaned;
+            }
+        }
+    }
+    // Add robot_options filtering
+    $robots_options = apply_filters( 'amt_robots_options', $robots_options );
+    if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+        // The flag is not supported
+        $robots_options = array_unique( $robots_options );
+    } else {
+        $robots_options = array_unique( $robots_options, SORT_STRING );
+    }
+    if ( ! empty( $robots_options ) ) {
+        $metadata_arr['basic:robots'] = '<meta name="robots" content="' . esc_attr( implode(',', $robots_options) ) . '" />';
+    }
+
+    // Add full meta tags
+    // Merge meta tags
+    $processed_full_meta_tags = apply_filters('amt_full_metatags_processed', $processed_full_meta_tags);
+    if ( ! empty($processed_full_meta_tags) ) {
+        $metadata_arr = array_merge($metadata_arr, $processed_full_meta_tags);
+    }
+
+    // Add copyright link
+    // On every page print the copyright head link
+    $copyright_url = amt_get_site_copyright_url($options);
+    //if ( empty($copyright_url)) {
+    //    $copyright_url = trailingslashit( get_bloginfo('url') );
+    //}
+    if ( ! empty($copyright_url) ) {
+        $metadata_arr['basic:copyright'] = '<link rel="copyright" type="text/html" title="' . esc_attr( get_bloginfo('name') ) . ' '.__('copyright information', 'add-meta-tags').'" href="' . esc_url( $copyright_url ) . '" />';
+    }
 
     // hreflang link element
+    // This section also expects an array of extra hreflang links that may have
+    // been collected from the full meta tags boxes.
     if ( $options['generate_hreflang_links'] == '1' ) {
         if ( is_singular() ) {
             $locale = amt_get_language_content($options, $post);
@@ -123,19 +355,32 @@ function amt_add_basic_metadata_head( $post, $attachments, $embedded_media, $opt
         if ( ! empty($hreflang) && ! empty($hreflang_url) ) {
             $hreflang_arr[] = '<link rel="alternate" hreflang="' . esc_attr( $hreflang ) . '" href="' . esc_url_raw( $hreflang_url ) . '" />';
         }
+        // Add extra hreflang links that have been collected from the full meta tags boxes
+        if ( ! empty($hreflang_links_arr) ) {
+            $hreflang_arr = array_merge($hreflang_arr, $hreflang_links_arr);
+        }
         // Allow filtering of the hreflang array
-        $hreflang_arr = apply_filters( 'amt_hreflang_links', $hreflang_arr, $hreflang, $hreflang_url );
+        $hreflang_arr = apply_filters( 'amt_hreflang_links', $hreflang_arr );
         // Add to to metadata array
         foreach ( $hreflang_arr as $hreflang_link ) {
-            $metadata_arr['basic:hreflang'] = $hreflang_link;
+            if ( preg_match('# hreflang="([^"]+)" #', $hreflang_link, $matches) ) {
+                $metadata_arr['basic:hreflang:' . $matches[1]] = $hreflang_link;
+            }
         }
     }
 
 
     // Basic Meta Tags
 
+    // Custom content override
+    if ( amt_is_custom($post, $options) ) {
+        // Return metadata with:
+        // add_filter( 'amt_custom_metadata_basic', 'my_function', 10, 5 );
+        // Return an array of meta tags. Array item format: ['key_can_be_whatever'] = '<meta name="foo" content="bar" />'
+        $metadata_arr = apply_filters( 'amt_custom_metadata_basic', $metadata_arr, $post, $options, $attachments, $embedded_media );
+
     // Default front page displaying latest posts
-    if ( amt_is_default_front_page() ) {
+    } elseif ( amt_is_default_front_page() ) {
 
         // Description and Keywords from the Add-Meta-Tags settings override
         // default behaviour.
@@ -224,13 +469,6 @@ function amt_add_basic_metadata_head( $post, $attachments, $embedded_media, $opt
         $newskeywords = amt_get_post_meta_newskeywords( $post->ID );
         if ( ! empty( $newskeywords ) ) {
             $metadata_arr['basic:news_keywords'] = '<meta name="news_keywords" content="' . esc_attr( $newskeywords ) . '" />';
-        }
-
-        // per post full meta tags
-        $full_metatags_for_content = amt_get_post_meta_full_metatags( $post->ID );
-        $full_metatags_for_content = apply_filters('amt_full_metatags_post', $full_metatags_for_content);
-        if ( ! empty( $full_metatags_for_content ) ) {
-            $metadata_arr['basic:full_metatags_post'] = html_entity_decode( stripslashes( $full_metatags_for_content ) );
         }
 
 
@@ -399,21 +637,6 @@ function amt_add_basic_metadata_head( $post, $attachments, $embedded_media, $opt
         
     }
 
-
-    // Add site wide meta tags
-    if ( ! empty( $options["site_wide_meta"] ) ) {
-        $full_metatags_for_site = html_entity_decode( stripslashes( $options["site_wide_meta"] ) );
-        $metadata_arr['basic:full_metatags_site'] = apply_filters('amt_full_metatags_site', $full_metatags_for_site);
-    }
-
-    // On every page print the copyright head link
-    $copyright_url = amt_get_site_copyright_url($options);
-    //if ( empty($copyright_url)) {
-    //    $copyright_url = trailingslashit( get_bloginfo('url') );
-    //}
-    if ( ! empty($copyright_url) ) {
-        $metadata_arr['basic:copyright'] = '<link rel="copyright" type="text/html" title="' . esc_attr( get_bloginfo('name') ) . ' Copyright Information" href="' . esc_url_raw( $copyright_url ) . '" />';
-    }
 
     // Filtering of the generated basic metadata
     $metadata_arr = apply_filters( 'amt_basic_metadata_head', $metadata_arr );

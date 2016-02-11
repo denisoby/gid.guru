@@ -1,25 +1,31 @@
 User-agent: *
-
+Disallow: *?page_number*
+Disallow: */author
+Disallow: */uploads
+Disallow: /.git
+Disallow: /.gitignore
 Disallow: */wp-*
+Disallow: /xmlrpc.php
+Disallow: /template.html
+Disallow: /search
+Disallow: */trackback
+Disallow: */feed
+Disallow: */comments
+Disallow: /?feed=
 Disallow: *?s=
 Disallow: *?attachment_id=
-Disallow: */feed
-Disallow: /xmlrpc.php
-Disallow: */page/
-Disallow: /author/*
-Disallow: */uploads
-Disallow: *.jpg
-Disallow: *.png
-Disallow: *.gif
-Disallow: *.tiff
-Disallow: *.bmp
-Disallow: *.jpeg
-Disallow: *.JPG
-Disallow: *.PNG
-Disallow: *.JPEG
-Disallow: *?page_number*
+Disallow: /?wp-subscription-manager*
+Disallow: */comment
+Disallow: */attachment
+Disallow: */page
 
 Allow: *.css*
 Allow: *.js*
 
 Host: gid.guru
+
+User-agent: Mediapartners-Google
+Disallow:
+
+User-Agent: YaDirectBot
+Disallow:
